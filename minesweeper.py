@@ -1,7 +1,7 @@
 from InputType import InputType
 from Grid import Grid
 
-grid = Grid(20, 20, 5)
+grid: Grid
 
 def ask_for_input(prompt: str, type: InputType, error: str = "Mauvaise entrée"):
   condition, format = type()
@@ -16,6 +16,8 @@ def ask_for_input(prompt: str, type: InputType, error: str = "Mauvaise entrée")
 while(True):
   if not ask_for_input("Do you wawnt to play ? (y/n): ", InputType.PLAY):
     break
+  
+  grid = Grid(20, 10, 5)
   
   while(True):
     grid.prompt()
