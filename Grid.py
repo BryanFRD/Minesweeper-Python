@@ -6,10 +6,16 @@ class Grid:
   width: int
   height: int
   grid: list = list()
+  max_case: int
+  case_revealed: int = 0
+  bombs: int
+  bomb_flagged: int = 0
   
   def __init__(self, width: int, height: int, bombs: int) -> None:
     self.width = width
     self.height = height
+    self.max_case = width * height
+    self.bombs = bombs
     
     self.generate(bombs)
     
@@ -49,15 +55,22 @@ class Grid:
   def reveal(self, x: int, y: int, flag: bool = False):
     case = self.get_case(x, y)
     
-    if(case is None or case.isRevealed):
+    if case is None or case.isRevealed:
       return
     
-    if(flag):
+    if flag:
       case.isFlagged = not case.isFlagged
+      if(case.hasBomb):
+        if case.isFlagged:
+          self.bomb_flagged += 1
+        else:
+          self.bomb_flagged -= 1
+    
     elif not case.isFlagged:
       case.isRevealed = True
+      self.case_revealed += 1
     
-    if(case.bombsAround > 0 or flag or case.isFlagged):
+    if case.bombsAround > 0 or flag or case.isFlagged:
       return
     
     for i in range(-1, 2, 1):
@@ -80,3 +93,6 @@ class Grid:
       prompt += "\n"
     prompt += "\n"
     print(prompt)
+    
+  def has_won(self) -> bool:
+    return self.case_revealed + self.bomb_flagged == self.max_case

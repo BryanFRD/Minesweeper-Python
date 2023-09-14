@@ -22,6 +22,10 @@ while(True):
   while(True):
     grid.prompt()
     
+    if grid.has_won():
+      print("You've won !")
+      break
+    
     x, y, reveal = ask_for_input("Enter coordinates (ex: b7 r|f)", InputType.GRID)
     case = grid.get_case(x, y)
     
@@ -31,7 +35,7 @@ while(True):
     
     grid.reveal(x, y, reveal)
     
-    if(case.hasBomb):
+    if(case.hasBomb and not reveal):
       grid.prompt()
       print("You've found a bomb !")
       break
