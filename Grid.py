@@ -34,7 +34,7 @@ class Grid:
       case.hasBomb = True
       for xx in range(-1, 2):
         for yy in range(-1, 2):
-          if(self.is_within(x+xx, x+yy)):
+          if(self.is_within(x+xx, y+yy)):
             self.get_case(x+xx, y+yy).bombsAround += 1
       
   def get_case(self, x: int, y: int) -> Case|None:
